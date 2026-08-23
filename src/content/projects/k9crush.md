@@ -1,10 +1,10 @@
 ---
-order: 3
+order: 5
 title: "K9 Crush"
 subtitle: "Dog Agility Platform"
 category: "Architecture"
 summary: "Platform for managing dog agility events: live scoring and updates."
-tech: ["Vue.js", "Firebase", "Tailwind"]
+tech: ["Vue.js", "Firebase", "Tailwind", ".NET", "RabbitMQ"]
 ---
 
 # K9 Crush Project Overview
@@ -14,7 +14,6 @@ tech: ["Vue.js", "Firebase", "Tailwind"]
 * **Decision:** Route same-module event cascades directly through the shared `k9crush.events` RabbitMQ exchange rather than a separate local pub/sub mechanism.
 * **Verification:** Source-verified against Wolverine's transport behavior (default fanout exchange, graceful no-op acknowledgment for modules without a local handler).
 * **Explicit Revisit Trigger:** System performance degradation under high-throughput event cascades or scale constraints requiring modular separation to independent microservices.
-* **Features:** Kanban-style tasks, goals loop, inbox, triggers, cron scheduling, R2 filesystem MCP integration, per-agent least-privilege permissions[cite: 1].
 
 ### Implementation Snippet
 ```csharp

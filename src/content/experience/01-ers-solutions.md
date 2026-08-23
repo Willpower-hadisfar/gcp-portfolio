@@ -4,7 +4,7 @@ role: "Solution Architect"
 company: "ERS Solutions"
 location: "Dublin, Ireland"
 period: "Aug 2024 – Jul 2026"
-current: true
+current: false
 tech:
   - ".NET Core"
   - "SQL Server"

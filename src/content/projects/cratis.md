@@ -10,7 +10,6 @@ tech: [".NET", "Cratis (Chronicle/Arc)", "React", "Event Sourcing"]
 This project serves as a minimal, highly opinionated reference implementation designed to showcase clean architectural patterns without the noise of production feature bloat.
 
 ### Core Implementation
-* **Features:** Kanban-style tasks, goals loop, inbox, triggers, cron scheduling, R2 filesystem MCP integration, per-agent least-privilege permissions[cite: 1].
 - **Domain:** A streamlined expense tracking system.
 - **Configurable Gates:** Implements a configurable approval gate that dynamically adjusts its behavior (e.g., completely skippable for a sole trader, or auto-approving transactions under a specific monetary threshold).
 - **Patterns Demonstrated:** Focuses purely on clean, decoupled examples of:
