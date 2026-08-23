@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 9
 title: "K9 Crush"
 subtitle: "Dog Agility Platform"
 category: "Architecture"

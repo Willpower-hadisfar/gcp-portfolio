@@ -17,7 +17,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    category: z.enum(['Architecture', 'AI']),
+    category: z.enum(['Architecture', 'AI', 'Research']),
     summary: z.string(),
   }),
 });

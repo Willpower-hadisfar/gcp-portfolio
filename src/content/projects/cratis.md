@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 7
 title: "Cratis Build Reference App"
 subtitle: "Event sourcing reference kit"
 category: "Architecture"

@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 8
 title: "Enterprise RAG Assistant"
 subtitle: "Multimodal document Q&A with citations"
 category: "AI"
