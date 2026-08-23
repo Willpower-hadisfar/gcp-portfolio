@@ -55,7 +55,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy portfolio-rag-backend \
+          gcloud run deploy rag-backend \
             --image=europe-west1-docker.pkg.dev/axiomatic-spark-505611-t0/portfolio-repo/rag-backend:latest \
             --region=europe-west1 \
             --platform=managed \
