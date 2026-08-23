@@ -4,7 +4,7 @@ company: "ERS Solutions (Placed at Irish Department of Justice)"
 location: "Dublin, Ireland"
 startDate: "Aug 2024"
 endDate: "Jul 2026"
-current: true
+current: false
 tech: [".NET Core", "SQL Server", "RabbitMQ", "Azure Service Bus", "Azure Function Apps", "Azure Container Apps", "Rancher"]
 ---
 - Ran technical discovery, PoCs, and feasibility studies to weigh technology/architecture trade-offs.
