@@ -1,3 +1,4 @@
+# app/engine.py
 import os
 from qdrant_client import QdrantClient
 from llama_index.core import VectorStoreIndex
@@ -14,7 +15,6 @@ class RAGEngine:
             qdrant_api_key = os.getenv("QDRANT_API_KEY")
             openai_api_key = os.getenv("OPENAI_API_KEY")
 
-            # Early validation to catch missing env vars immediately in logs
             missing_vars = []
             if not qdrant_url: missing_vars.append("QDRANT_URL")
             if not qdrant_api_key: missing_vars.append("QDRANT_API_KEY")
@@ -26,7 +26,7 @@ class RAGEngine:
             client = QdrantClient(
                 url=qdrant_url, 
                 api_key=qdrant_api_key,
-                check_compatibility=False,  # Bypasses the version check warning/hang
+                check_compatibility=False,
                 timeout=10.0
             )
             
@@ -42,4 +42,11 @@ class RAGEngine:
         response = engine.query(prompt)
         return str(response)
 
-rag_engine = RAGEngine()
+# LAZY INSTANCE: Singleton created only when needed, not on module import
+_engine_instance = None
+
+def get_rag_engine() -> RAGEngine:
+    global _engine_instance
+    if _engine_instance is None:
+        _engine_instance = RAGEngine()
+    return _engine_instance

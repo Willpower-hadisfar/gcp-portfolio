@@ -11,7 +11,7 @@ echo "Refreshing RAG index using .env config..."
 docker run --rm \
   --env-file .env \
   -v "$(pwd)/data:/app/data" \
-  rag-backend:latest python refresh_index.py
+  rag-backend:latest python ingest.py
 
   
 echo "✨ Sync complete! The live Cloud Run backend will immediately serve the updated text."

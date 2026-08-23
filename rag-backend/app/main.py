@@ -1,40 +1,37 @@
-from fastapi import FastAPI, HTTPException, Security, status
+# app/main.py
+import traceback
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
-import os
-from app.engine import rag_engine
+from app.engine import get_rag_engine
 
-app = FastAPI(title="William Power | Portfolio RAG API", version="1.0.0")
+app = FastAPI()
 
-# Enforce explicit CORS filtering so malicious client targets cannot hijack compute
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://axiomatic-spark-505611-t0.web.app", "http://localhost:4321"],
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["POST", "GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
 class QueryRequest(BaseModel):
     prompt: str
 
-class QueryResponse(BaseModel):
-    answer: str
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "RAG Backend is running"}
 
-@app.get("/health", status_code=status.HTTP_200_OK)
-async def health_check():
-    return {"status": "healthy", "service": "portfolio-rag-backend"}
-
-@app.post("/api/v1/query", response_model=QueryResponse)
-async def execute_query(request: QueryRequest):
-    if not request.prompt.strip():
-        raise HTTPException(status_code=400, detail="Prompt context cannot be empty.")
-    
+@app.post("/api/v1/query")
+async def query_endpoint(request: QueryRequest):
     try:
-        # Dispatch query to your LlamaIndex pipeline
-        result = rag_engine.query(request.prompt)
-        return QueryResponse(answer=result)
+        engine = get_rag_engine()
+        answer = engine.query(request.prompt)
+        return {"answer": answer}
     except Exception as e:
-        # Graceful error isolation preventing full trace leaks
-        raise HTTPException(status_code=500, detail="Internal RAG execution engine failure.")
+        print("=== RAG BACKEND ERROR TRACEBACK ===")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Error executing query: {str(e)}"
+        )
