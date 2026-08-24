@@ -1,11 +1,18 @@
 # app/main.py
 import traceback
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from app.engine import get_rag_engine
 
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI()
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,10 +34,11 @@ async def health_check():
     return {"status": "healthy", "service": "portfolio-rag-backend"}
 
 @app.post("/api/v1/query")
-async def query_endpoint(request: QueryRequest):
+@limiter.limit("10/minute")
+async def query_endpoint(request: Request, body: QueryRequest):
     try:
         engine = get_rag_engine()
-        answer = engine.query(request.prompt)
+        answer = engine.query(body.prompt)
         return {"answer": answer}
     except Exception as e:
         print("=== RAG BACKEND ERROR TRACEBACK ===")
