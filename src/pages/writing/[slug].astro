@@ -1,0 +1,60 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const relatedProject = post.data.relatedProject
+  ? await getEntry('projects', post.data.relatedProject)
+  : undefined;
+---
+
+<Layout title={`${post.data.title} | William Power`} description={post.data.description}>
+  <main class="max-w-3xl mx-auto px-4 py-12 space-y-8">
+    <a href="/writing" class="text-sm text-slate-400 hover:text-slate-200 transition-colors">&larr; All writing</a>
+
+    <article class="space-y-6">
+      <header class="space-y-3">
+        <h1 class="text-3xl font-bold tracking-tight text-white">{post.data.title}</h1>
+        <div class="flex items-center gap-3 text-xs font-mono text-slate-500">
+          <time datetime={post.data.date.toISOString()}>
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          {post.data.readingTime && <span>&middot; {post.data.readingTime}</span>}
+        </div>
+        <div class="flex gap-2">
+          {post.data.tags.map((tag: string) => (
+            <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </header>
+
+      <div class="prose prose-invert prose-slate max-w-none prose-headings:font-semibold prose-a:text-indigo-400">
+        <Content />
+      </div>
+
+      {relatedProject && (
+        <div class="mt-10 pt-6 border-t border-slate-800">
+          <p class="text-xs font-mono text-slate-500 uppercase tracking-wide mb-2">Related project</p>
+          <a href={`/#${relatedProject.id}`} class="block bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition-colors">
+            <p class="text-white font-semibold">{relatedProject.data.title}</p>
+            <p class="text-sm text-slate-400 mt-1">{relatedProject.data.summary}</p>
+          </a>
+        </div>
+      )}
+    </article>
+  </main>
+</Layout>

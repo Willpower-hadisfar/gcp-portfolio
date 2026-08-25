@@ -22,4 +22,17 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { experience, projects };
+const writing = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/writing' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    description: z.string(),
+    tags: z.array(z.string()).default([]),
+    readingTime: z.string().optional(),
+    draft: z.boolean().default(false),
+    relatedProject: z.string().optional(), // slug of a project in the `projects` collection
+  }),
+});
+
+export const collections = { experience, projects, writing };
