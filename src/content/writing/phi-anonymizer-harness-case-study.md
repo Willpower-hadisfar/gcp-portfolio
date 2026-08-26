@@ -1,6 +1,6 @@
 ---
 title: "When Your Governance Layer Is the Thing That's Wrong"
-date: 2026-09-01
+date: 2026-08-26
 description: "An autonomous coding agent solved a HIPAA-shaped PHI anonymizer correctly on its first live attempt — and a deterministic harness failed it five times anyway, because the wrong file was under scrutiny."
 tags: ["agentic-ai", "google-adk", "governance", "case-study"]
 readingTime: "6 min"
