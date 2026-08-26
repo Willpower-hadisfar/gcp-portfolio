@@ -32,6 +32,8 @@ const writing = defineCollection({
     readingTime: z.string().optional(),
     draft: z.boolean().default(false),
     relatedProject: z.string().optional(), // slug of a project in the `projects` collection
+    image: z.string().optional(), // path under src/assets or a full URL; falls back to a generated accent banner when absent
+    imageAlt: z.string().optional(),
   }),
 });
 

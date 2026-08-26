@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostBanner from '../../components/PostBanner.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing', ({ data }) => {
@@ -21,28 +22,43 @@ const relatedProject = post.data.relatedProject
 ---
 
 <Layout title={`${post.data.title} | William Power`} description={post.data.description}>
-  <main class="max-w-3xl mx-auto px-4 py-12 space-y-8">
+  <PostBanner seed={post.id} title={post.data.title} image={post.data.image} imageAlt={post.data.imageAlt} />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 sm:py-14 space-y-10">
     <a href="/writing" class="text-sm text-slate-400 hover:text-slate-200 transition-colors">&larr; All writing</a>
 
-    <article class="space-y-6">
-      <header class="space-y-3">
-        <h1 class="text-3xl font-bold tracking-tight text-white">{post.data.title}</h1>
-        <div class="flex items-center gap-3 text-xs font-mono text-slate-500">
+    <article class="space-y-8">
+      <header class="space-y-4">
+        <h1 class="font-sans text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">{post.data.title}</h1>
+        <div class="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-500">
           <time datetime={post.data.date.toISOString()}>
             {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
           {post.data.readingTime && <span>&middot; {post.data.readingTime}</span>}
         </div>
-        <div class="flex gap-2">
-          {post.data.tags.map((tag: string) => (
-            <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {post.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.map((tag: string) => (
+              <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </header>
 
-      <div class="prose prose-invert prose-slate max-w-none prose-headings:font-semibold prose-a:text-indigo-400">
+      <div class="prose-article prose prose-invert prose-lg max-w-none
+        prose-headings:font-sans prose-headings:font-semibold prose-headings:tracking-tight
+        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+        prose-p:leading-relaxed prose-p:text-slate-300
+        prose-li:text-slate-300 prose-li:leading-relaxed
+        prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-white prose-strong:font-semibold
+        prose-blockquote:border-indigo-700 prose-blockquote:text-slate-400 prose-blockquote:not-italic
+        prose-code:font-mono prose-code:text-indigo-300 prose-code:before:content-none prose-code:after:content-none
+        prose-pre:bg-slate-950 prose-pre:border prose-pre:border-slate-800
+        prose-table:text-sm prose-th:text-slate-300 prose-td:text-slate-400 prose-hr:border-slate-800">
         <Content />
       </div>
 

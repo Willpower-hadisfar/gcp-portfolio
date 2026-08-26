@@ -1,1 +1,23 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/source-serif-4/400.css";
+@import "@fontsource/source-serif-4/400-italic.css";
+@import "@fontsource/source-serif-4/600.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+}
+
+/* Long-form article body reads better in a text serif than the UI sans */
+.prose-article {
+  font-family: var(--font-serif);
+}
+.prose-article :is(h1, h2, h3, h4, .not-prose, code, pre, kbd) {
+  font-family: var(--font-sans);
+}

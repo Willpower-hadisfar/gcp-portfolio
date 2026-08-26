@@ -1,0 +1,45 @@
+---
+interface Props {
+  seed: string;
+  title: string;
+  image?: string;
+  imageAlt?: string;
+  compact?: boolean;
+}
+
+const { seed, title, image, imageAlt, compact = false } = Astro.props;
+
+// Deterministic hash so the same post always gets the same gradient
+let hash = 0;
+for (let i = 0; i < seed.length; i++) {
+  hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+}
+
+const gradients = [
+  'from-indigo-600 via-indigo-800 to-slate-900',
+  'from-emerald-600 via-teal-800 to-slate-900',
+  'from-fuchsia-600 via-purple-800 to-slate-900',
+  'from-sky-600 via-blue-800 to-slate-900',
+  'from-amber-500 via-orange-700 to-slate-900',
+  'from-rose-600 via-pink-800 to-slate-900',
+];
+const gradient = gradients[hash % gradients.length];
+const heightClass = compact ? 'h-28' : 'h-48 sm:h-64';
+---
+
+{image ? (
+  <img
+    src={image}
+    alt={imageAlt || title}
+    class:list={[heightClass, 'w-full object-cover']}
+    loading="lazy"
+  />
+) : (
+  <div class:list={[heightClass, 'w-full bg-gradient-to-br relative overflow-hidden', gradient]}>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background-image: radial-gradient(circle at 20% 20%, white 1px, transparent 1px); background-size: 22px 22px;"
+    >
+    </div>
+  </div>
+)}
