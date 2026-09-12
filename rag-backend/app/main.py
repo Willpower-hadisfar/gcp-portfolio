@@ -16,7 +16,12 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://axiomatic-spark-505611-t0.web.app", "http://localhost:4321"],
+    allow_origins=[
+        "https://axiomatic-spark-505611-t0.web.app",
+        "https://william-power.com",
+        "https://www.william-power.com",
+        "http://localhost:4321",
+    ],
     allow_credentials=True,
     allow_methods=["POST", "GET"],
     allow_headers=["*"],
