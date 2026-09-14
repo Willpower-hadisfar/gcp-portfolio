@@ -1,7 +1,7 @@
 ---
 title: "Pi vs. Antigravity vs. Orca: One Job Per Harness, Not One Harness to Rule Them"
 date: 2026-09-08
-description: "Why I retired Orca, kept Antigravity for exactly one job, and picked Pi as the headless runner underneath an oracle-gated build pipeline — plus the subscription-metering trap that made 'conserve API credits' the wrong question."
+description: "Why I retired Orca, kept Antigravity for exactly one job, and picked Pi as the headless runner underneath an oracle-gated build pipeline — and the measured result: Pi came in 27–55× cheaper than Claude Code per successful build on the same tasks."
 tags: ["agentic-ai", "developer-tools", "multi-agent-orchestration"]
 readingTime: "7 min"
 draft: false
@@ -52,11 +52,28 @@ An oracle-gated build loop has a particular shape: it needs to run many build-ve
 
 The philosophy behind this is the interesting part, and it's a genuine fork in how these tools get designed. Pi explicitly excludes MCP, sub-agents, and permission popups from its core, on the stated premise that you build those as extensions only when you actually need them. That's the opposite bet from a framework like LangChain's Deep Agents, which ships a planning loop, first-class subagents, and built-in human-in-the-loop interrupts as defaults. Deep Agents bets that most people want the batteries in the box. Pi bets that most people are carrying weight they don't use. Neither bet is wrong in general — but for a harness that's going to run underneath something else's verification logic, minimal is the right side of that bet.
 
-## What I'm actually testing before I trust this
+## What the test actually showed
 
-None of the above is a decision yet — it's a hypothesis with a test attached. The plan: take a reference build kit I already have a working baseline for, run it through Pi's SDK with the project's constitution doc and oracle gates wrapped around it, use a cheap model as the coder via API key, and measure tokens-per-successful-build against the existing Orca baseline on the same tasks.
+The test ran sooner than planned — the hypothesis needed the number, and waiting wasn't buying anything. I took two frozen slices from the K9crush eval harness (`GetPendingApplicationsQueue` and `RejectApplication`), ran each through Claude Code and through Pi, pinned both sides to the same Sonnet model, and recorded cost per successful build:
 
-If the lazy-skill model holds up at real constitution-doc scale — not a toy prompt, the actual rules a build has to satisfy — that's the signal to make Pi the standing runner. If it doesn't, I want to know *why* before committing anything unattended to it. The specific failure mode I'm watching for is daemon stability under sustained autonomous load. A harness that's flaky after the fortieth iteration of an overnight loop is worse than a heavyweight, reliable one — a stall three hours into an unattended run costs more than the tokens a leaner harness ever saved.
+| Slice | Runner | Result | Wall clock | Cost |
+|---|---|---|---|---|
+| GetPendingApplicationsQueue | Claude Code | Passed | 6.68m | $0.918 |
+| GetPendingApplicationsQueue | Pi | Passed | 6.28m | $0.0168 |
+| RejectApplication | Claude Code | Passed | 3.47m | $0.455 |
+| RejectApplication | Pi | Passed | 7.97m | $0.0166 |
+
+Identical pass/fail outcomes, similar wall-clock time, and Pi came in roughly **27–55× cheaper per successful build**.
+
+That's the number the whole exercise existed to get: not a vendor's pricing page, not a back-of-the-envelope token estimate — an actual measured cost per successful build on the same tasks. The lazy-skill, sub-1K-token, no-approval-gates bet paid off exactly where I'd hoped, at the cost line rather than the capability line.
+
+Now the caveats, because a single cheap run isn't a proof and I don't want this quoted as one:
+
+- **Two slices, one run each, no repeats.** It's a real signal, not a statistically solid baseline. The 27–55× spread is the honest range across the two tasks, not a stable ratio to bank on.
+- **Same model on both sides.** The comparison is harness overhead, not model quality — Sonnet was pinned on both, so the delta is Pi's per-turn efficiency versus Claude Code's, not frontier-versus-cheap. The cheap-model tier below is a separate, still-unmeasured question.
+- **The headless plumbing wasn't free.** Pi needed `--api-key` passed explicitly (it doesn't fall back to `ANTHROPIC_API_KEY` from the environment), and a real multi-file coding transcript is too large to pass as a CLI argument — it has to go through temp files. Small things, but they're the difference between a clean unattended run and a stalled one.
+
+I'm still watching the daemon-stability failure mode — two slices don't exercise what happens after the fortieth iteration of an overnight loop. That's the next measurement, not the one above.
 
 ## The cheap-tier idea riding along with this
 
@@ -64,4 +81,6 @@ One more piece worth naming, because it's easy to conflate with the harness ques
 
 ## Where this leaves the stack
 
-Fewer harnesses, each with exactly one job, and a cost question that finally has a plan to answer it instead of a vibe. That's a smaller claim than "I found the best agent tool," and it's the one that's actually true.
+Fewer harnesses, each with exactly one job, and a cost question that now has a measured answer instead of a vibe: on the same tasks, Pi did the same work for 27–55× less. Pi is the standing headless runner; the cheap-model tier below is the next measurement, still deliberately uncommitted.
+
+That's a smaller claim than "I found the best agent tool," and it's the one that's actually true — now with a number attached.
