@@ -19,6 +19,10 @@ const projects = defineCollection({
     title: z.string(),
     category: z.enum(['Architecture', 'AI', 'Research']),
     summary: z.string(),
+    subtitle: z.string().optional(),
+    tech: z.array(z.string()).optional(),
+    order: z.number().optional(),
+    repoUrl: z.string().url().optional(),
   }),
 });
 
