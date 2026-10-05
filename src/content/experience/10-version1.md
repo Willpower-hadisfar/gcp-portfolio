@@ -3,8 +3,8 @@ order: 10
 role: "Solution Architect"
 company: "Version 1"
 location: "Dublin, Ireland"
-period: "Aug 2026 – Present"
-current: true
+period: "Aug 2026 – Oct 2026"
+current: false
 tech:
   - "Power Platform"
   - "Microsoft Graph"

@@ -5,7 +5,7 @@ description: "Change a rule on an Event Modeling board and watch a previously-pa
 tags: ["event-modeling", "spec-driven-development", "verification", "agentic-ai"]
 readingTime: "8 min"
 draft: false
-relatedProject: "eunomia"
+relatedProject: "nomothetes"
 ---
 
 I built something small this month that produced a specific, reproducible moment. It's not a model, not a framework, not a pipeline of pipelines. It's a one-line outcome:
