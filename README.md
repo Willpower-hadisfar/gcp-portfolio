@@ -41,3 +41,12 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Deployment — Cloudflare Pages
+
+Per ADR-0001 (vault: `Active_Projects/william-power.com (Sovereign HQ)/ADRs/`):
+
+- **Build command:** `npm run build` — **Publish dir:** `dist`
+- The gate at `/` is `public/index.html` plus `functions/index.js` (Pages Functions). No separate Worker, no `fetch(request)` self-proxy.
+- `wrangler.toml` is present for CLI deploys: `npx wrangler deploy` (preview: `npx wrangler pages dev dist`).
+- **Do not switch the DNS records to proxied until the v2.1 cutover checkpoint** (Firebase's ACME challenge still needs DNS-only today). Until then this builds alongside the Firebase deployment unaided.

@@ -27,3 +27,6 @@ pnpm-debug.log*
 .env
 .env.*
 *.env
+
+# local dev state
+.wrangler/

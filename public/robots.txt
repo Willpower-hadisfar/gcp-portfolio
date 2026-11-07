@@ -1,0 +1,5 @@
+# Allow-all: there is no robots exclusion on this site.
+# Human crawlers pass UA-level directly to /home (ADR-0004); uptime probes and fetchers
+# likewise receive a redirect to real content rather than the gate persona.
+User-agent: *
+Allow: /
