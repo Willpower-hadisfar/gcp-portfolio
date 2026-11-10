@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-country="__GATE_COUNTRY__">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>William Power — Solution Architect</title>
+  <meta name="description" content="Portfolio and enterprise engineering writing by William Power — Cloud Platforms, Enterprise RAG Integration, and Event-Driven Systems. Direct entrance: /home" />
+  <link rel="canonical" href="/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script>try{if(sessionStorage.getItem("gate_passed")==="true")location.replace("/home");}catch(e){}</script>
+  <style>
+    :root {
+      --bg: #0f1113;
+      --card-bg: #161a1f;
+      --border: #262b32;
+      --text: #e6edf3;
+      --text-muted: #8b98a5;
+      --accent: #d97706;
+      --accent-soft: rgba(217, 119, 6, 0.15);
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--text); }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .gate {
+      max-width: 680px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+    }
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    /* Server-selected persona: exactly one shown, decided by the edge function. */
+    .persona { display: none; }
+    .persona[data-key="GB"] { display: block; }
+    .persona[data-key="CH"] { display: block; }
+    .persona[data-key="AE"] { display: block; }
+    .persona[data-key="US"] { display: block; }
+    .persona[data-key="IE"] { display: block; }
+    html[data-country="GB"]  .persona:not([data-key="GB"]) { display: none; }
+    html[data-country="CH"]  .persona:not([data-key="CH"]) { display: none; }
+    html[data-country="AE"]  .persona:not([data-key="AE"]) { display: none; }
+    html[data-country="US"]  .persona:not([data-key="US"]) { display: none; }
+    html[data-country="IE"]  .persona:not([data-key="IE"]) { display: none; }
+
+    h1 { font-size: 1.4rem; font-weight: 600; line-height: 1.35; margin-bottom: 0.75rem; }
+    p.lead { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem; }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+      background: #000;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .terminal-quote {
+      font-family: var(--mono);
+      background: #0b0d0f;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: #c3cdd8;
+      margin-bottom: 1.25rem;
+    }
+    .terminal-quote .attrib { color: var(--text-muted); }
+
+    .actions { display: flex; flex-direction: column; gap: 0.75rem; }
+    .btn {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 0.85rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      border: none;
+      font-family: inherit;
+    }
+    a.btn { text-decoration: none; line-height: 1.4; }
+    .btn-primary { background: var(--text); color: #0b0d0f; }
+    .btn-primary:hover { background: #f4f7fa; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: #475569; }
+
+    .footnote {
+      margin-top: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+    .footnote a { color: var(--text-muted); }
+    .footnote a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <main class="gate">
+    <div class="meta-bar">
+      <span>ENDPOINT: <strong>__GATE_PROVENANCE__</strong></span>
+      <span class="badge">__GATE_BADGE__</span>
+    </div>
+
+    <!-- GB — The Cheese Shop -->
+    <section class="persona" data-key="GB" aria-label="United Kingdom gate">
+      <h1>Protocol 1975: The Purveyance of Comestibles</h1>
+      <p class="lead">
+        Notice to visitors from the United Kingdom: in accordance with statutory precedent, we must
+        verify whether any deliverables actually exist before proceeding.
+      </p>
+      <div class="video-wrapper" aria-hidden="true">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/egqQrcyGIKs"
+          allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+          allowfullscreen
+          title="External reference: Monty Python's Cheese Shop sketch">
+        </iframe>
+      </div>
+      <div class="terminal-quote">
+        &ldquo;Shut the door, would you? It&rsquo;s not much of a portfolio, is it?&rdquo;<br>
+        &mdash; &ldquo;Finest in the district, sir.&rdquo;<br>
+        &mdash; &ldquo;And yet completely devoid of cheese.&rdquo;
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary gate-pass">I Acknowledge There Is No Cheese (Proceed)</button>
+        <a class="btn btn-ghost" href="/home">Bypass Theatrical Inquiry &rarr; Enter Site Directly</a>
+      </div>
+    </section>
+
+    <!-- CH — Precision Horology -->
+    <section class="persona" data-key="CH" aria-label="Switzerland gate">
+      <h1>Horlogerie &amp; Escapements</h1>
+      <p class="lead">
+        Nothing here is approximate. Tolerances calibrated to three microns. No bells, no sirens,
+        no contraband ticking in the lining of a suitcase.
+      </p>
+      <div class="terminal-quote">
+        &ldquo;No watches, cameras, radio sets?&rdquo;<br>
+        <span class="attrib">&mdash; &ldquo;No precision watches. Certainly no Swiss movements. None whatsoever.&rdquo;</span>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary gate-pass">Inspect Monolithic Movements</button>
+        <a class="btn btn-ghost" href="/home">Skip the Inspection &rarr; Enter Site Directly</a>
+      </div>
+    </section>
+
+    <!-- AE — Sovereign Bravado -->
+    <section class="persona" data-key="AE" aria-label="United Arab Emirates gate">
+      <h1>Scale, Vision &amp; Sovereign Concrete</h1>
+      <p class="lead">
+        Turnkey execution across sovereign zones. Unconstrained compute, high ambient temperatures,
+        zero room for indecision.
+      </p>
+      <div class="terminal-quote">
+        ARCHITECTURAL MANDATE: &ldquo;If it does not scale to forty storeys on day one,
+        we build the foundation anyway.&rdquo;
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary gate-pass">Authorize Sovereign Clearance</button>
+        <a class="btn btn-ghost" href="/home">Decline the Briefing &rarr; Enter Site Directly</a>
+      </div>
+    </section>
+
+    <!-- US — Braveheart Rebound -->
+    <section class="persona" data-key="US" aria-label="United States gate">
+      <h1>Post-Downfall Freedom Architecture</h1>
+      <p class="lead">
+        They took the runway, the cap table, and the Q3 advisory seat. But they will never take
+        the root credentials.
+      </p>
+      <div class="terminal-quote">
+        &ldquo;They may take our stock options, but they will never take our local execution!&rdquo;
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary gate-pass">Claim Sovereign Freedom</button>
+        <a class="btn btn-ghost" href="/home">Not In the Mood &rarr; Enter Site Directly</a>
+      </div>
+    </section>
+
+    <!-- IE / default — Salt of the Earth -->
+    <section class="persona" data-key="IE" aria-label="Ireland and all other regions gate">
+      <h1>Salt of the Earth Engineering</h1>
+      <p class="lead">
+        Properly made, built to stand the weather, and unbothered by performative complexity.
+        A cup of tea and code that actually compiles.
+      </p>
+      <div class="terminal-quote">
+        &ldquo;Grand so. No multi-tier enterprise fog&mdash;just straightforward systems
+        that run until the cows come home.&rdquo;
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary gate-pass">Step Inside</button>
+        <a class="btn btn-ghost" href="/home">Off We Go &rarr; Enter Site Directly</a>
+      </div>
+    </section>
+
+    <p class="footnote">
+      Zero cookies. Zero trackers. Passing the gate is remembered for this tab only —
+      direct entrance: <a href="/home">william-power.com/home</a>.
+    </p>
+  </main>
+
+  <noscript>
+    <p style="text-align:center;font-family:monospace;font-size:0.8rem;color:#8b98a5;">
+      JavaScript is off: use the &ldquo;Enter Site Directly&rdquo; link in any gate to reach the portfolio,
+      or go straight to <a href="/home">/home</a>. No cookies or storage are required to browse the site.
+    </p>
+  </noscript>
+
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem("gate_passed") === "true") {
+          location.replace("/home");
+          return;
+        }
+      } catch (e) { /* storage blocked: redirect still usable via anchors below */ }
+      document.querySelectorAll(".gate-pass").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          try { sessionStorage.setItem("gate_passed", "true"); } catch (e) { /* ignore */ }
+          location.href = "/home";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
