@@ -50,3 +50,7 @@ Per ADR-0001 (vault: `Active_Projects/william-power.com (Sovereign HQ)/ADRs/`):
 - The gate at `/` is `public/index.html` plus `functions/index.js` (Pages Functions). No separate Worker, no `fetch(request)` self-proxy.
 - `wrangler.toml` is present for CLI deploys: `npx wrangler deploy` (preview: `npx wrangler pages dev dist`).
 - **Do not switch the DNS records to proxied until the v2.1 cutover checkpoint** (Firebase's ACME challenge still needs DNS-only today). Until then this builds alongside the Firebase deployment unaided.
+
+---
+
+**Where this deploys:** master → Cloudflare Pages (auto-build on push; production domain on the Pages project). Historical note: previously Firebase Hosting, fully retired at the 2026-11 Pages cutover.
