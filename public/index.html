@@ -156,6 +156,31 @@
       <span class="badge">__GATE_BADGE__</span>
     </div>
 
+    <script>
+      /* Static-host fallback. Cloudflare Pages injects the `__GATE_*__` sentinels server-side
+         (functions/index.js). Any host without the edge function — Firebase Hosting still serves
+         `dist/` today — would otherwise ship the raw sentinels to visitors and, because no
+         `html[data-country=...]` rule would match, render every persona stacked at once.
+         Resolve to the IE default here, naming the fallback in the provenance rather than
+         hard-coding silently. No-op when the sentinels were already injected. */
+      (function () {
+        var d = document.documentElement;
+        if (!d.dataset.country || d.dataset.country.indexOf("__GATE_") === 0) {
+          d.dataset.country = "IE";
+        }
+        var fallbacks = {
+          "__GATE_PROVENANCE__": "NO-EDGE\u2192IE-DEFAULT",
+          "__GATE_BADGE__": "SOVEREIGN // REGION: IE"
+        };
+        document.querySelectorAll(".meta-bar strong, .meta-bar .badge").forEach(function (el) {
+          var token = el.textContent.trim();
+          if (Object.prototype.hasOwnProperty.call(fallbacks, token)) {
+            el.textContent = fallbacks[token];
+          }
+        });
+      })();
+    </script>
+
     <!-- GB — The Cheese Shop -->
     <section class="persona" data-key="GB" aria-label="United Kingdom gate">
       <h1>Protocol 1975: The Purveyance of Comestibles</h1>
